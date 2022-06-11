@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import './App.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import api from './worker';
 
-export default App;
+// import { Navbar } from './Navbar';
+import { Board } from './Board';
+import { BOARD_HEIGHT, BOARD_WIDTH } from './config';
+
+export const App: React.FC = () => {
+	const [running, setRunning] = useState(false);
+
+	useEffect(() => {
+		api.setRunning(running);
+	}, [running]);
+
+	return (
+		<>
+			<Board />
+			<div className="container-fluid mt-3">
+				<div className="card">
+					<div className="card-header">
+						<button
+							className="btn btn-primary me-2"
+							onClick={() => setRunning(!running)}
+						>
+							{running ? 'Stop' : 'Start'}
+						</button>
+
+						<button
+							className="btn btn-primary me-2"
+							onClick={() => api.evolveBoard()}
+						>
+							Evolve
+						</button>
+
+						<button
+							className="btn btn-primary"
+							onClick={async () =>
+								api.setBoard(
+									await api.makeEmptyBoard(
+										BOARD_WIDTH,
+										BOARD_HEIGHT
+									)
+								)
+							}
+						>
+							Reset
+						</button>
+					</div>
+				</div>
+			</div>
+		</>
+	);
+};

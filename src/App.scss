@@ -1,0 +1,16 @@
+$primary: #0099ff;
+
+$dark: #212529;
+$light: #f8f9fa;
+
+$body-bg: $dark;
+$body-color: $light;
+
+$card-bg: $dark;
+$card-border-color: $light;
+
+$enable-rounded: false;
+$enable-shadows: true;
+$enable-gradients: true;
+
+@import '~bootstrap/scss/bootstrap';
